@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import gspread
+import pandas as pd
 import streamlit as st
 import streamlit_authenticator as stauth
 from streamlit_option_menu import option_menu
@@ -85,8 +86,11 @@ if authentication_status:
         
     elif selected == "Leader Board":
         # Leader Board
-        st.write("Leader Board")
-        st.write(names)
+        st.title("Leader Board")
+        dataframe = pd.DataFrame(wks.get_all_records())
+        leaderboard = dataframe[['Student Name', 'Score']]
+
+        st.write(leaderboard)
 
 
 

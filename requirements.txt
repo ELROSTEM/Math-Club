@@ -1,2 +1,4 @@
 streamlit-authenticator
 streamlit-option-menu
+
+gspread
