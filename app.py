@@ -5,11 +5,30 @@ import streamlit as st
 import streamlit_authenticator as stauth
 from streamlit_option_menu import option_menu
 
+#Google API credentials from st.secrets
+google_api_credentials = {
+"type": st.secrets['type'],
+"project_id": st.secrets['project_id'],
+"private_key_id": st.secrets['private_key_id'],
+"private_key": st.secrets['private_key'],
+"client_email":st.secrets['client_email'],
+"client_id": st.secrets['client_id'],
+"auth_uri": st.secrets['auth_uri'],
+"token_uri": st.secrets['token_uri'],
+"auth_provider_x509_cert_url": st.secrets['auth_provider_x509_cert_url'],
+"client_x509_cert_url": st.secrets['client_x509_cert_url'],
+}
+
+# Gspread
+sa = gspread.service_account_from_dict(google_api_credentials)
+sh = sa.open('math-club')
+wks = sh.worksheet('Leader Board')
+
 # Authentication
-names = ['John Smith','Rebecca Briggs']
-usernames = ['jsmith','rbriggs']
-passwords = ['123','456']
-hashed_passwords = stauth.hasher(passwords).generate()
+names = (wks.col_values(1))[1:]
+usernames = (wks.col_values(2))[1:]
+os_passwords = (wks.col_values(3))[1:]
+hashed_passwords = stauth.hasher(os_passwords).generate()
 
 authenticator = stauth.authenticate(names,usernames,hashed_passwords,
     'some_cookie_name','some_signature_key',cookie_expiry_days=30)
@@ -53,30 +72,10 @@ if authentication_status:
                 date = datetime.now().strftime("%d/%m/%Y")
                 time = datetime.now().strftime("%H:%M:%S")
 
-                #Google API credentials from st.secrets
-                google_api_credentials = {
-                    "type": st.secrets['type'],
-                    "project_id": st.secrets['project_id'],
-                    "private_key_id": st.secrets['private_key_id'],
-                    "private_key": st.secrets['private_key'],
-                    "client_email":st.secrets['client_email'],
-                    "client_id": st.secrets['client_id'],
-                    "auth_uri": st.secrets['auth_uri'],
-                    "token_uri": st.secrets['token_uri'],
-                    "auth_provider_x509_cert_url": st.secrets['auth_provider_x509_cert_url'],
-                    "client_x509_cert_url": st.secrets['client_x509_cert_url'],
-                }
-
-                # # Save API calls because I am broke
-                # sa = gspread.service_account_from_dict(google_api_credentials)
-                # sh = sa.open('shoreline-reconfiguration')
-                # wks = sh.worksheet('data')
-
                 #Write the data into database
-                # cell = wks.find(name)
-                # body = [date, time, age, alge, shape, review]
-                # wks.append_row(body, table_range="A1:G1")
-
+                cell = wks.find(name)
+                streak = wks.cell(cell.row, (cell.col + 5)).value
+                wks.update_cell(cell.row, (cell.col + 5), int(streak)+1)
 
                 st.success(f"Submission Time: {date} {time}. Hope you have a great day! 😊")
                 st.balloons()
@@ -87,6 +86,7 @@ if authentication_status:
     elif selected == "Leader Board":
         # Leader Board
         st.write("Leader Board")
+        st.write(names)
 
 
 
