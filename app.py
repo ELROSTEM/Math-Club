@@ -6,6 +6,15 @@ import streamlit as st
 import streamlit_authenticator as stauth
 from streamlit_option_menu import option_menu
 
+st.set_page_config(
+     page_title="Weekly Math",
+     page_icon="🤓",
+     initial_sidebar_state="expanded",
+     menu_items={
+         'About': "# Weekly Math. Do math problems and compete against other grades"
+     }
+ )
+
 #Google API credentials from st.secrets
 google_api_credentials = {
 "type": st.secrets['type'],
