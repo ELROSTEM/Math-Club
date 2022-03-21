@@ -75,8 +75,12 @@ if authentication_status:
 
                 #Write the data into database
                 cell = wks.find(name)
+                #Get scores
                 streak = wks.cell(cell.row, (cell.col + 5)).value
+                score = wks.cell(cell.row, (cell.col + 4)).value
+                #Update worksheet
                 wks.update_cell(cell.row, (cell.col + 5), int(streak)+1)
+                wks.update_cell(cell.row, (cell.col + 4), int(score)+100)
 
                 st.success(f"Submission Time: {date} {time}. Hope you have a great day! 😊")
                 st.balloons()
@@ -101,4 +105,7 @@ elif authentication_status == False:
     st.error('Username/password is incorrect')
 elif authentication_status == None:
     st.warning('Please enter your username and password')
+    url = "https://forms.gle/cHbVEdbC1yLwo9xE7"
+    st.write("Sign Up Here [link](%s)" % url)
+    
 
