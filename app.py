@@ -38,12 +38,11 @@ wks = sh.worksheet('Leader Board')
 names = (wks.col_values(1))[1:]
 usernames = (wks.col_values(2))[1:]
 os_passwords = (wks.col_values(3))[1:]
-hashed_passwords = stauth.hasher(os_passwords).generate()
+hashed_passwords = stauth.Hasher(os_passwords).generate()
 
-authenticator = stauth.authenticate(names,usernames,hashed_passwords,
+authenticator = stauth.Authenticate(names,usernames,hashed_passwords,
     'some_cookie_name','some_signature_key',cookie_expiry_days=30)
-name, authentication_status = authenticator.login('Login','main')
-
+name, authentication_status, username = authenticator.login('Login','main')
 
 # Logged In
 if authentication_status:
