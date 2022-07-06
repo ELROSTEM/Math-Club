@@ -44,7 +44,8 @@ if authentication_status:
 
     # Welcome
     st.subheader(f'Welcome {name}, today is {todays_date} on week {WEEK}.')
-    if WEEK not in users:
+    authenticator.logout("Logout")
+    if WEEK not in users.columns:
         users[WEEK] = 0
  
     # Problem
@@ -64,8 +65,7 @@ if authentication_status:
         # Get current user index
         if answer == CORRECT_ANSWER:
             form.empty()
-            current_user_index = users.index[users['username'] == username].tolist()
-            users.at[current_user_index, WEEK] = 100/weekday   # Score is divided by weekday
+            users.loc[users["username"] == username, WEEK] = int(100/weekday)
             users.to_csv('database/users.csv', index=False)
             st.success(f"Submission day {todays_date}. Hope you have a great day! 😊")
             st.balloons()

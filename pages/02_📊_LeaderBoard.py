@@ -16,7 +16,7 @@ st.set_page_config(
 leaderboard = pd.read_csv("database/users.csv")
 
 columns = list(leaderboard.columns)
-leaderboard["Score"] = leaderboard[columns[4:]].sum(axis=1)
-leaderboard = leaderboard[["username", "grade", "Score"]]
+leaderboard["score"] = leaderboard[columns[4:]].sum(axis=1)
+leaderboard = leaderboard[["username", "grade", "score"]]
 
-st.dataframe(leaderboard)
+st.table(leaderboard)
