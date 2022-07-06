@@ -5,19 +5,6 @@ import streamlit as st
 import streamlit_authenticator as stauth
 
 
-
-# Constants
-todays_date = date.today()
-isocalendar = date(todays_date.year, todays_date.month, todays_date.day).isocalendar()
-weekday = isocalendar[2]
-WEEK = str(isocalendar[1])
-PROBLEM = r'./problem/problem_1.png'
-CORRECT_ANSWER = 45
-
-
-
-
-
 st.set_page_config(
      page_title="Weekly Math",
      page_icon="🤓",
@@ -26,6 +13,19 @@ st.set_page_config(
          'About': "# Weekly Math. Do math problems and compete against other grades"
      }
 )
+
+# Constants
+todays_date = date.today()
+isocalendar = date(todays_date.year, todays_date.month, todays_date.day).isocalendar()
+weekday = isocalendar[2]
+WEEK = str(isocalendar[1])
+
+# Problem
+QUESTION = "When was ERHS Created?"
+IMAGE = "https://www.nyclgbtsites.org/wp-content/uploads/2021/06/17.-Eleanor-Roosevelt-High-School.-Photo-NY-Daily-News-2019.jpg"
+CORRECT_ANSWER = 2002
+
+
 
 users = pd.read_csv("database/users.csv")
 
@@ -49,7 +49,8 @@ if authentication_status:
         users[WEEK] = 0
  
     # Problem
-    st.image(PROBLEM)
+    st.image(IMAGE)
+    st.subheader(QUESTION)
 
     form = st.empty()
     with form.container():
