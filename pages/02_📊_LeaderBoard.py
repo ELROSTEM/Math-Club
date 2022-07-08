@@ -26,21 +26,23 @@ freshman_leaderboard = leaderboard[leaderboard["grade"] == "Freshman"]
 sophomore_leaderboard = leaderboard[leaderboard["grade"] == "Sophomore"]
 junior_leaderboard = leaderboard[leaderboard["grade"] == "Junior"]
 senior_leaderboard = leaderboard[leaderboard["grade"] == "Senior"]
+teacher_leaderboard = leaderboard[leaderboard["grade"] == "Teacher"]
 
 # Grade Ranking
 freshman_total = freshman_leaderboard["score"].sum()
 sophomore_total = sophomore_leaderboard["score"].sum()
 junior_total = junior_leaderboard["score"].sum()
 senior_total = senior_leaderboard["score"].sum()
+teacher_total = teacher_leaderboard["score"].sum()
 
 # Tallied data
-data = [freshman_total, sophomore_total, junior_total, senior_total]
+data = [freshman_total, sophomore_total, junior_total, senior_total, teacher_total]
 
 # Bar chart
-colors = ['lightslategray',] * 5
+colors = ['lightslategray',] * 6
 colors[data.index(max(data))] = 'crimson' # Color highest red
 fig = go.Figure(data=[go.Bar(
-    x=['Freshman', 'Sophmore', 'Junior', 'Senior'],
+    x=['Freshman', 'Sophmore', 'Junior', 'Senior', 'Teacher'],
     y= data,
     marker_color=colors # marker color can be a single color value or an iterable
 )])

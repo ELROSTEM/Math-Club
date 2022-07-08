@@ -79,10 +79,10 @@ if authentication_status:
 
     # Admin
     if username == "BoppityBop":
-        users.loc[users["grade"] == "Junior", "grade"] = "Senior"
-        users.loc[users["grade"] == "Sophomore", "grade"] = "Junior"
-        users.loc[users["grade"] == "Freshman", "grade"] = "Sophmore"
-        users_csv = users.to_csv().encode('utf-8')
+        # users.loc[users["grade"] == "Junior", "grade"] = "Senior"
+        # users.loc[users["grade"] == "Sophomore", "grade"] = "Junior"
+        # users.loc[users["grade"] == "Freshman", "grade"] = "Sophmore"
+        users_csv = users.to_csv(index=False).encode('utf-8')
         st.download_button(
         label="Download users.csv",
         data=users_csv,
@@ -96,5 +96,7 @@ elif authentication_status is False:
     st.error('Username/password is incorrect')
 elif authentication_status is None:
     st.warning('Please enter your username and password')
-    url = "https://forms.gle/cHbVEdbC1yLwo9xE7"
-    st.write("Sign Up Here [link](%s)" % url)
+    st.caption("You can also sign in as Guest. Guest serves as an anonymous community user. \n")
+    st.caption("Username: Guest    Password: 1")
+    url = "https://forms.gle/s392HsrPpgBFQLqY8"
+    st.write(f"Sign Up Here [link]({url})")
